@@ -1,31 +1,22 @@
 
 ## Data Sources
 
-* events_api
-  ```bash
-  SCHEMA >
-    `name` String `json:$.name`,
-    `session_id` String `json:$.session_id`,
-    `timestamp` DateTime64(3) `json:$.timestamp`,
-    `type` LowCardinality(String) `json:$.type`,
-    `event` String `json:$.event`
+* **events_api**
+* **kafka_events**
 
-ENGINE "MergeTree"
- 
-* kafka_events
-
+  These both use this schema:
 ```bash
 SCHEMA >
-    `name` String `json:$.name`,
-    `session_id` String `json:$.session_id`,
-    `timestamp` DateTime64(3) `json:$.timestamp`,
-    `type` LowCardinality(String) `json:$.type`,
-    `event` String `json:$.event`
+  `name` String `json:$.name`,
+  `session_id` String `json:$.session_id`,
+  `timestamp` DateTime64(3) `json:$.timestamp`,
+  `type` LowCardinality(String) `json:$.type`,
+  `event` String `json:$.event`
 
 ENGINE "MergeTree"
 ```
 
-* mv_player_stats
+* **mv_player_stats**
 
 ```bash
 SCHEMA >
@@ -50,6 +41,7 @@ Here are the endpoints currently registered in the FlappyBird app:
 * /pipes/api_personalization_mv.json
 
 Note that all are related to Materialized Views.
+
 They all pull from the `mv_player_stats` Data Source. 
 
 
