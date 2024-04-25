@@ -1,6 +1,6 @@
 ## api_personalization Pipe
 
-### stats Node
+### stats 
 
 ```sql
 SELECT
