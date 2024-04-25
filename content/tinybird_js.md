@@ -131,6 +131,85 @@ export async function send_purchase(session) {
 
 ```
 
+# Implementing Phaser game 
+
+## Implementing Phaser Sceen class
+
+Here is some selected code to illustrate the methods and attributes implemented here. 
+
+```js
+    update() {
+        if (this.timerStarted) {
+            this.updateBird();
+        }
+    }
+
+    handleOffer(r) {
+        this.offer = r?.data?.[0]?.offer ?? 0;
+    }
+
+    getDataFromTinybird() {
+        endpoints.personalization_url.searchParams.set(
+            "player_param",
+            this.session.name
+        );
+
+        return Promise.all([
+            get_data_from_tinybird(endpoints.personalization_url)
+                .then((r) => this.handleOffer(r))
+        ]);
+    }
+
+    showAd() {
+
+        this.getDataFromTinybird();
+
+                if (this.offer == 1) {
+                    this.scene.start("DealScene", data);
+                } else {
+                    this.scene.start("EndGameScene", data);
+                }
+    }
+
+    async endGame() {
+        this.timer.remove();
+        send_death(this.session);
+        this.scoreText.destroy();
+
+        // Use a timer event to wait for 2 seconds
+        this.time.delayedCall(2000, async () => {
+            gameOver.destroy();
+            gameOverScore.destroy();
+            this.showAd();
+        });
+    }
+
+    updateBird() {
+        if (this.bird.angle < 30) {
+            this.bird.angle += 2;
+        }
+
+        // Check if the bird's top edge is above the top of the window
+        if (this.bird.y <= 0) {
+            this.endGame();
+        }
+
+        // Check if the bird's bottom edge is below the bottom of the window
+        if (this.bird.y + (this.bird.height * this.bird.scaleX) >= this.cameras.main.height) {
+            this.endGame();
+        }
+
+        // Additionally, check for collision with pipes
+        if (this.physics.overlap(this.bird, this.pipes)) {
+            this.endGame();
+        }
+    }
+}
+
+```
+
+
+
 
 
 
