@@ -62,11 +62,6 @@ SELECT
  countMerge(scores) AS total_score,
  maxMerge(end_ts) AS t
 FROM mv_player_stats
-WHERE
- 1
- {% if defined(event_param) %}
-     AND event = {{ String(event_param, 'Developer meetup', description="Event to filter on") }}
- {% end %}
 GROUP BY player_id, session_id
 ORDER BY rank
 ```
