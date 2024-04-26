@@ -112,7 +112,7 @@ export async function send_purchase(session) {
     return send_data_to_tinybird(payload);
 }
 
-``
+```
 
 
 # Glue
